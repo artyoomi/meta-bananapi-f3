@@ -1,0 +1,30 @@
+diff --:git a/board/spacemit/k1-x/config.mk b/board/spacemit/k1-x/config.mk
+index f9400b6a0..1d665fd56 100644
+--- a/board/spacemit/k1-x/config.mk
++++ b/board/spacemit/k1-x/config.mk
+@@ -6,7 +6,7 @@
+ # Add 4KB header for u-boot-spl.bin
+ quiet_cmd_build_spl_platform = BUILD   $2
+ cmd_build_spl_platform = \
+-	cp $(srctree)/$3 \
++	cp $(srctree)/../build/$3 \
+ 		$(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/ && \
+ 	python3 $(srctree)/tools/build_binary_file.py \
+ 		-c $(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/configs/fsbl.json \
+@@ -28,12 +28,12 @@ cmd_build_spl_platform = \
+ quiet_cmd_build_itb = BUILD   $2
+ cmd_build_itb = \
+ 	mkdir -p $(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/dtb && \
+-	cp $(srctree)/arch/$(ARCH)/dts/*.dtb $(srctree)/ &&\
+-	cp $(srctree)/arch/$(ARCH)/dts/*.dtb \
++	cp $(srctree)/../build/arch/$(ARCH)/dts/*.dtb $(srctree)/ &&\
++	cp $(srctree)/../build/arch/$(ARCH)/dts/*.dtb \
+ 		$(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/dtb/ && \
+-	cp $(srctree)/u-boot-nodtb.bin \
++	cp $(srctree)/../build/u-boot-nodtb.bin \
+ 		$(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/ && \
+-	$(srctree)/tools/mkimage -f \
++	$(srctree)/../build/tools/mkimage -f \
+ 		$(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/configs/uboot_fdt.its \
+ 		-r $(srctree)/$2;\
+ 	rm -rf $(srctree)/board/$(CONFIG_SYS_VENDOR)/$(CONFIG_SYS_BOARD)/dtb && \
