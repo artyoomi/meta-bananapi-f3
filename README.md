@@ -4,11 +4,21 @@ This document describes the initial Yocto support for the development board Bana
 
 The work was heavily based on the buildroot work done by Jesse Taube <Mr.Bossman075@gmail.com> and can be found [here](https://github.com/Mr-Bossman/bpi-f3-buildroot)
 
+## Host Requirements ##
+
+Depending on which Linux distribution you are running, you may need to manually install some host dependencies.
+
+During creation of the bananapi-f3 layer, Ubuntu 23.10 was used without any host related issues after following [these instructions](https://docs.yoctoproject.org/5.0.4/ref-manual/system-requirements.html#ubuntu-and-debian)
+
+See the [the list of supported Linux distributions](https://docs.yoctoproject.org/5.0.4/ref-manual/system-requirements.html#supported-linux-distributions)
+
+It might also be a good idea to take a look at the [System Requirements](https://docs.yoctoproject.org/5.0.4/ref-manual/system-requirements.html#system-requirements).
+
 ## Prerequisites ##
 
 ```shell
-mkdir bpi3-yocto
-cd bpi3-yocto
+mkdir bpi-f3-yocto
+cd bpi-f3-yocto
 git clone git://git.yoctoproject.org/poky -b scarthgap
 ```
 
@@ -23,7 +33,7 @@ git clone https://github.com/riscv/meta-riscv.git -b scarthgap
 The first thing we need to do is to clone the layer.
 
 ```shell
-git clone [gitlab url]
+git clone https://gitlab.qamcom.se/magnus.malm/banana-pi-f3-for-yocto.git meta-bananapi-f3
 ```
 
 Next, we initialze a build directory:
@@ -40,8 +50,8 @@ Two files are of interest to us:
 
 Add the following lines to the BBLAYERS variable in conf/bblayers.conf:
 
-  /path/to/bpi-f3/yocto/meta-riscv \
-  /path/to/bpi-f3/yocto/meta-bananapi-f3 \
+  /path/to/bpi-f3-yocto/meta-riscv \
+  /path/to/bpi-f3-yocto/meta-bananapi-f3 \
 
 Next, change the MACHINE variable in conf/local.conf.
 
@@ -85,9 +95,13 @@ And don't forget to insert the SD card into the SD card slot too.
 
 Now you're ready to power on the board.
 
-## Limitations and future improvements ##
+## Limitations ##
 
-  * realtek wireless drivers not built
-  * patched u-boot config.mk in board/spacemit/k1's (in vs out of tree build)
-  * Uses genimage instead of wic to create sdcard.img
+  * Realtek wireless drivers are not built
   * Proprietary files needed in the rootfs to enable remoteproc control of the other core
+
+## Future improvements ##
+
+  * Use wic instead of genimage to create sdcard.img
+  * Fix build warnings
+  * Update U-Boot recipe to eliminate the board/spacemit/k1 config.mk patch related to out-of-source builds
