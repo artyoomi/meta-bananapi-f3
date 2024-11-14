@@ -1,4 +1,4 @@
-# Yocto support fort Banana Pi F3  #
+# Yocto support for Banana Pi F3  #
 
 This document describes the initial Yocto support for the development board Banana Pi F3. 
 
@@ -15,6 +15,8 @@ See the [the list of supported Linux distributions](https://docs.yoctoproject.or
 It might also be a good idea to take a look at the [System Requirements](https://docs.yoctoproject.org/5.0.4/ref-manual/system-requirements.html#system-requirements).
 
 ## Prerequisites ##
+
+Prepare the build by creating a project directory and fetch Poky from the Yocto project. The scarthgap release of Poky is used,
 
 ```shell
 mkdir bpi-f3-yocto
@@ -36,28 +38,29 @@ The first thing we need to do is to clone the layer.
 git clone https://gitlab.qamcom.se/magnus.malm/banana-pi-f3-for-yocto.git meta-bananapi-f3
 ```
 
-Next, we initialze a build directory:
+Next, we initialize a build directory:
 
-``` shell
+```shell
 source poky/oe-init-build-env build
 ```
 
 This places you in the build directory with some pre populated files.
 
 Two files are of interest to us:
-  * conf/bblayers.conf
-  * conf/local.conf
+  * `conf/bblayers.conf`
+  * `conf/local.conf`
 
-Add the following lines to the BBLAYERS variable in conf/bblayers.conf:
-
+Add the following lines to the `BBLAYERS` variable in `conf/bblayers.conf`:
+```
   /path/to/bpi-f3-yocto/meta-riscv \
   /path/to/bpi-f3-yocto/meta-bananapi-f3 \
+```
 
-Next, change the MACHINE variable in conf/local.conf.
+Next, change the `MACHINE` variable in `conf/local.conf`.
 
-Find the line where the default MACHINE is set to qemux86-64 (should be at line 39), and change it to this:
+Find the line where the default `MACHINE` is set to `qemux86-64` (should be at line 39), and change it to this:
 
-``` shell
+```shell
 MACHINE ??= "bananapi-f3"
 ```
 
@@ -73,7 +76,7 @@ When the build has finished successfully, there will be an image file in <build>
 
 This image file can be written to an SD card with dd, like so:
 
-``` shell
+```shell
 sudo dd status=progress oflag=sync bs=1M if=tmp/deploy/images/bananapi-f3/sdcard.img of=/dev/sd<X> ; sync
 ```
 
