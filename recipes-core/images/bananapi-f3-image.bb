@@ -7,6 +7,7 @@ IMAGE_FSTYPES += "ext4"
 IMAGE_INSTALL += " \
     packagegroup-core-boot \
     packagegroup-core-ssh-openssh \
+    wireless-regdb-static \
     ${CORE_IMAGE_EXTRA_INSTALL} \
 "
 
@@ -15,8 +16,6 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI = "file://env_k1-x.txt \
            file://u-boot-bpi-f3-512b.img \
            file://u-boot-bpi-f3-header-sd-0k.img \
-           file://regulatory.db \
-           file://regulatory.db.p7s \
            file://esos.elf"
 
 do_image_preprocess() {
@@ -26,8 +25,6 @@ do_image_preprocess() {
     install -D -m 0644 ${THISDIR}/files/u-boot-bpi-f3-header-sd-0k.img ${DEPLOY_DIR_IMAGE}/
     install -d ${IMAGE_ROOTFS}/lib/firmware/
     install -D -m 0744 ${THISDIR}/files/esos.elf ${IMAGE_ROOTFS}/lib/firmware/
-    install -D -m 0644 ${THISDIR}/files/regulatory.db ${IMAGE_ROOTFS}/lib/firmware/
-    install -D -m 0644 ${THISDIR}/files/regulatory.db.p7s ${IMAGE_ROOTFS}/lib/firmware/
 
     # Kernel image conversion
     if [ -f ${DEPLOY_DIR_IMAGE}/Image ]; then
