@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Go to directory with thermal zones
-cd /sys/class/thermal/
+cd /sys/class/thermal/ || exit
 
 FIELD_WIDTH=20
 
@@ -17,7 +17,6 @@ for zone in thermal_zone*; do
         temp_c=$((temp_mc / 1000))
         
         # Output result
-        # echo "$zone_name: Temp: $temp_c°C"
         printf "%-${FIELD_WIDTH}s: Temp: %d°C\n" "$zone_name" "$temp_c"
     fi
 done
